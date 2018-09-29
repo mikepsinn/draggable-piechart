@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    https://docs.google.com/spreadsheets/d/e/2PACX-1vTzHp6oLErcc8AsGeP97XsagpmFJ5s35Qb9emMDAQXjqaTJ-ZZEezsLg6F01DXjAWTs-eMVy_k9wQ5H/pub?gid=0&single=true&output=csv
+    <meta charset="UTF-8">
+    <title>Draggable canvas pie chart</title>
+    <link href="example.css" rel="stylesheet" type="text/css">
+    <script src="https://spreadsheets.google.com/feeds/cells/2PACX-1vTzHp6oLErcc8AsGeP97XsagpmFJ5s35Qb9emMDAQXjqaTJ-ZZEezsLg6F01DXjAWTs-eMVy_k9wQ5H/od6/public/values?alt=json-in-script&callback=setupPieChart"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-messaging.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.5.2/firebase-functions.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+    <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCZOMxq15cvgitbHaCWiKHIt8SI4wHYyCE",
+            authDomain: "think-by-numbers.firebaseapp.com",
+            databaseURL: "https://think-by-numbers.firebaseio.com",
+            projectId: "think-by-numbers",
+            storageBucket: "",
+            messagingSenderId: "341920646928"
+        };
+        firebase.initializeApp(config);
+        // FirebaseUI config.
+        var uiConfig = {
+            signInSuccessUrl: '<url-to-redirect-to-on-success>',
+            signInOptions: [
+                // Leave the lines as is for the providers you want to offer your users.
+                firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+                firebase.auth.FacebookAuthProvider.PROVIDER_ID,
+                firebase.auth.TwitterAuthProvider.PROVIDER_ID,
+                firebase.auth.GithubAuthProvider.PROVIDER_ID,
+                firebase.auth.EmailAuthProvider.PROVIDER_ID,
+                firebase.auth.PhoneAuthProvider.PROVIDER_ID,
+                firebaseui.auth.AnonymousAuthProvider.PROVIDER_ID
+            ],
+            // tosUrl and privacyPolicyUrl accept either url string or a callback
+            // function.
+            // Terms of service url/callback.
+            tosUrl: '<your-tos-url>',
+            // Privacy policy url/callback.
+            privacyPolicyUrl: function() {
+                window.location.assign('<your-privacy-policy-url>');
+            }
+        };
+
+        // Initialize the FirebaseUI Widget using Firebase.
+        var ui = new firebaseui.auth.AuthUI(firebase.auth());
+        // The start method will wait until the DOM is loaded.
+        ui.start('#firebaseui-auth-container', uiConfig);
+    </script>
+    <script src="draggable-piechart.js"></script>
+    <script src="budget.js"></script>
+    <!--[if IE]>
+    <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<div id="piechart-controls">
+    <canvas id="piechart" width="400" height="400">Your browser is too old!</canvas>
+    <br>
+    <table id="proportions-table"></table>
+    <br>
+    <p id="piechart-instructions">
+        Drag the circles or click the buttons to adjust the pie chart. If a segment has gone,
+        you can get it back by clicking it's '+' button.
+    </p>
+</div>
+
+</body>
+</html>
