@@ -87,7 +87,7 @@
                 if (hoveredTarget) {
                     piechart.hoveredIndex = hoveredTarget.index;
                     piechart.draw();
-                } else if (piechart.hoveredIndex != -1) {
+                } else if (piechart.hoveredIndex !== -1) {
                     piechart.hoveredIndex = -1;
                     piechart.draw();
                 }
@@ -182,7 +182,7 @@
         var visibleSegments = this.getVisibleSegments();
 
         for(var i = 0; i < visibleSegments.length; i += 1) {
-            if (visibleSegments[i].index == index) {
+            if (visibleSegments[i].index === index) {
                 return 100 * visibleSegments[i].arcSize / TAU;
             }
         }
@@ -201,7 +201,7 @@
                 percentages[i] = 0;
             } else {
                 for(var j = 0; j < visibleSegments.length; j += 1) {
-                    if (visibleSegments[j].index == i) {
+                    if (visibleSegments[j].index === i) {
                         percentages[i] = 100 * visibleSegments[j].arcSize / TAU;
                     }
                 }
@@ -293,7 +293,7 @@
         for (var i = 0; i < visibleSegments.length; i += 1) {
 
             // Start at this segment
-            if (visibleSegments[i].index == index) {
+            if (visibleSegments[i].index === index) {
 
                 //Set new position
                 if (setNewPos) {
@@ -431,7 +431,7 @@
         // Finally draw drag nodes on top (order not important)
         for (i = 0; i < visibleSegments.length; i += 1) {
             var location = polarToCartesian(visibleSegments[i].angle, geometry.radius);
-            piechart.drawNode(context, piechart, location.x, location.y, geometry.centerX, geometry.centerY, i == piechart.hoveredIndex);
+            piechart.drawNode(context, piechart, location.x, location.y, geometry.centerX, geometry.centerY, i === piechart.hoveredIndex);
         }
 
         piechart.onchange(piechart);
@@ -465,7 +465,7 @@
 
 
         // Reverse the direction if we have done over 180 in either direction
-        var sameDirection = previousDragDistance > 0 == angleDragDistance > 0;
+        var sameDirection = previousDragDistance > 0 === angleDragDistance > 0;
         var greaterThanHalf = Math.abs(previousDragDistance - angleDragDistance) > Math.PI;
 
 
