@@ -15,21 +15,81 @@
 
     function setupPieChart(data) {
         console.log(data);
-        var categories = [
+        var proportions = [
             {
-                name: 'military',
-                tooltip: '',
-                url: ''
+                "name": "Military",
+                "total": 686,
+                "url": "https://www.thebalance.com/department-of-defense-what-it-does-and-its-impact-3305982",
+                "tooltip": "Fights wars"
+            },
+            {
+                "name": "Health & Human Services",
+                "total": 70,
+                "url": "https://www.hhs.gov/about/index.html",
+                "tooltip": "Fosters advances in medicine, public health, and social services."
+            },
+            {
+                "name": "Education",
+                "total": 59.9,
+                "url": "https://en.wikipedia.org/wiki/United_States_Department_of_Education",
+                "tooltip": "Establishies policy for, administers and coordinates most federal assistance to education, collect data on US schools, and to enforce federal educational laws regarding privacy and civil rights"
+            },
+            {
+                "name": "Veteran Affairs",
+                "total": 83.1,
+                "url": "https://en.wikipedia.org/wiki/United_States_Department_of_Veterans_Affairs",
+                "tooltip": "Provides healthcare services to eligible military veterans at VA medical centers and outpatient clinics located throughout the country; several non-healthcare benefits including disability compensation, vocational rehabilitation, education assistance, home loans, and life insurance; and provides burial and memorial benefits to eligible veterans and family members."
+            },
+            {
+                "name": "Homeland Security",
+                "total": 52.7,
+                "url": "https://en.wikipedia.org/wiki/United_States_Department_of_Homeland_Security",
+                "tooltip": "Protects the United States within, at, and outside its borders. Its stated goal is to prepare for, prevent, and respond to domestic emergencies, particularly terrorism."
+            },
+            {
+                "name": "Energy Dept",
+                "total": 29.2,
+                "url": "https://en.wikipedia.org/wiki/United_States_Department_of_Energy",
+                "tooltip": "Responsibilities include the nation's nuclear weapons program, nuclear reactor production for the United States Navy, energy conservation, energy-related research, radioactive waste disposal, and domestic energy production."
+            },
+            {
+                "name": "Nuclear Security",
+                "total": 15.1,
+                "url": "https://en.wikipedia.org/wiki/National_Nuclear_Security_Administration",
+                "tooltip": "Maintains and enhances the safety, security, and effectiveness of the US nuclear weapons stockpile without nuclear explosive testing; works to reduce the global danger from weapons of mass destruction; provides the United States Navy with nuclear propulsion; and responds to nuclear and radiological emergencies in the United States and abroad."
+            },
+            {
+                "name": "Housing and Urban Development",
+                "total": 29.2,
+                "url": "https://en.wikipedia.org/wiki/United_States_Department_of_Housing_and_Urban_Development",
+                "tooltip": "Responsible for programs concerned with the Nation'shousing needs, fair housing opportunities, and improvement and development of the Nation's communities."
+            },
+            {
+                "name": "State Dept",
+                "total": 40.3,
+                "url": "https://en.wikipedia.org/wiki/United_States_Department_of_State",
+                "tooltip": "Advises the President and represents the country in international affairs and foreign policy issues."
+            },
+            {
+                "name": "NASA",
+                "total": 19.9,
+                "url": "https://en.wikipedia.org/wiki/NASA",
+                "tooltip": "Responsible for the civilian space program, as well as aeronautics and aerospace research"
+            },
+            {
+                "name": "All Other Agencies",
+                "total": 133.1,
+                "url": "",
+                "tooltip": ""
             }
         ];
-        var dimensions = knuthfisheryates2(categories);
-        var proportions = [];
+        var dimensions = knuthfisheryates2(proportions);
 
-        var percent = 100/categories.length;
+        var percent = 100/proportions.length;
 
-        for (var i = 0; i < categories.length; i++) {
-            var category = categories[i];
-            proportions.push({ proportion: percent, format: { color: "#2665da", label: category}})
+        for (var i = 0; i < proportions.length; i++) {
+            proportions[i].proportion = percent;
+            proportions[i].format = { color: "#2665da", label: proportions[i].name};
         }
 
         var setup = {
@@ -65,7 +125,7 @@
             context.translate(centerX, centerY);
             context.rotate(startingAngle);
 
-            var fontSize = Math.floor(context.canvas.height / 25);
+            var fontSize = Math.floor(context.canvas.height / 40);
             var dx = radius - fontSize;
             var dy = centerY / 10;
 
@@ -108,37 +168,6 @@
                 adjust[i].addEventListener('click', adjustClick);
             }
 
-        }
-
-        /*
-         * Generates n proportions with a minimum percentage gap between them
-         */
-        function generateRandomProportions(n, min) {
-
-            // n random numbers 0 - 1
-            var rnd = Array.apply(null, {length: n}).map(function(){ return Math.random(); });
-
-            // sum of numbers
-            var rndTotal = rnd.reduce(function(a, v) { return a + v; }, 0);
-
-            // get proportions, then make sure each propoertion is above min
-            return validateAndCorrectProportions(rnd.map(function(v) { return v / rndTotal; }), min);
-
-
-            function validateAndCorrectProportions(proportions, min) {
-                var sortedProportions = proportions.sort(function(a,b){return a - b});
-
-                for (var i = 0; i < sortedProportions.length; i += 1) {
-                    if (sortedProportions[i] < min) {
-                        var diff = min - sortedProportions[i];
-                        sortedProportions[i] += diff;
-                        sortedProportions[sortedProportions.length - 1] -= diff;
-                        return validateAndCorrectProportions(sortedProportions, min);
-                    }
-                }
-
-                return sortedProportions;
-            }
         }
 
         /*
